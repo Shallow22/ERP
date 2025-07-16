@@ -54,6 +54,21 @@
             margin-top: 20px;
         }
         .card h2 {color: #ba950b;margin-bottom: 10px;}
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .dash-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .dash-item h3 {color: #ba950b; font-size: 16px; margin-bottom: 5px;}
+        .dash-item p {font-size: 20px; font-weight: 600;}
     </style>
 </head>
 <body>
@@ -66,37 +81,14 @@
         </a>
     </div>
 
-    <div class="menu-item">
-        <a href="{% url 'home' %}">Inicio</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="{% url 'inventario' %}">Inventario</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="{% url 'compras' %}">Ir a Compras</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="#">Ventas</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="#">Producción</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="#">Finanzas</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="#">Clientes</a>
-    </div>
-
-    <div class="menu-item">
-        <a href="#">Empleados</a>
-    </div>
+    <div class="menu-item"><a href="{% url 'home' %}">Inicio</a></div>
+    <div class="menu-item"><a href="{% url 'inventario' %}">Inventario</a></div>
+    <div class="menu-item"><a href="{% url 'compras' %}">Compras</a></div>
+    <div class="menu-item"><a href="{% url 'ventas' %}">Ventas</a></div>
+    <div class="menu-item"><a href="{% url 'produccion' %}">Producción</a></div>
+    <div class="menu-item"><a href="{% url 'finanzas' %}">Finanzas</a></div>
+    <div class="menu-item"><a href="{% url 'clientes' %}">Clientes</a></div>
+    <div class="menu-item"><a href="{% url 'empleados' %}">Empleados</a></div>
 </div>
 
 <!-- CONTENIDO -->
@@ -106,7 +98,36 @@
     </div>
     <div class="card">
         <h2>Bienvenido al ERP</h2>
-        <p>Selecciona una opción del menú para comenzar.</p>
+        <div class="dashboard">
+            <div class="dash-item">
+                <h3>Productos</h3>
+                <p>{{ total_productos }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Compras</h3>
+                <p>{{ total_compras }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Ventas</h3>
+                <p>{{ total_ventas }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Producción pendiente</h3>
+                <p>{{ producciones_pendientes }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Balance</h3>
+                <p>${{ balance_financiero }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Clientes</h3>
+                <p>{{ total_clientes }}</p>
+            </div>
+            <div class="dash-item">
+                <h3>Empleados</h3>
+                <p>{{ total_empleados }}</p>
+            </div>
+        </div>
     </div>
 </div>
 
