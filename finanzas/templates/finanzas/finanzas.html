@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Producción - ERP</title>
+    <title>Finanzas - ERP</title>
     {% load static %}
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -45,93 +45,85 @@
     <div class="menu-item"><a href="{% url 'inventario' %}">Inventario</a></div>
     <div class="menu-item"><a href="{% url 'compras' %}">Compras</a></div>
     <div class="menu-item"><a href="{% url 'ventas' %}">Ventas</a></div>
-    <div class="menu-item active"><a href="{% url 'produccion' %}">Producción</a></div>
-    <div class="menu-item"><a href="{% url 'finanzas' %}">Finanzas</a></div>
+    <div class="menu-item"><a href="{% url 'produccion' %}">Producción</a></div>
+    <div class="menu-item active"><a href="{% url 'finanzas' %}">Finanzas</a></div>
     <div class="menu-item"><a href="{% url 'clientes' %}">Clientes</a></div>
     <div class="menu-item"><a href="{% url 'empleados' %}">Empleados</a></div>
 </div>
 <div class="content">
     <div class="headbar"><span>{{ user.username }}</span></div>
     <div class="card">
-        <h2>Producción</h2>
+        <h2>Finanzas</h2>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Inicio</th>
-                    <th>Fin</th>
-                    <th>Estado</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for prod in producciones %}
-                <tr id="fila-{{ prod.id }}">
-                    <td>{{ prod.id }}</td>
-                    <td><span id="producto-text-{{ prod.id }}">{{ prod.producto }}</span>
-                        <input type="text" id="producto-input-{{ prod.id }}" value="{{ prod.producto }}" style="display:none;">
-                    </td>
-                    <td><span id="cantidad-text-{{ prod.id }}">{{ prod.cantidad }}</span>
-                        <input type="number" id="cantidad-input-{{ prod.id }}" value="{{ prod.cantidad }}" style="display:none;">
-                    </td>
-                    <td><span id="inicio-text-{{ prod.id }}">{{ prod.fecha_inicio }}</span>
-                        <input type="date" id="inicio-input-{{ prod.id }}" value="{{ prod.fecha_inicio }}" style="display:none;">
-                    </td>
-                    <td><span id="fin-text-{{ prod.id }}">{{ prod.fecha_fin }}</span>
-                        <input type="date" id="fin-input-{{ prod.id }}" value="{{ prod.fecha_fin }}" style="display:none;">
-                    </td>
-                    <td><span id="estado-text-{{ prod.id }}">{{ prod.estado }}</span>
-                        <select id="estado-input-{{ prod.id }}" style="display:none;">
-                            <option value="pendiente">Pendiente</option>
-                            <option value="en_proceso">En Proceso</option>
-                            <option value="finalizado">Finalizado</option>
+                {% for mov in movimientos %}
+                <tr id="fila-{{ mov.id }}">
+                    <td>{{ mov.id }}</td>
+                    <td><span id="tipo-text-{{ mov.id }}">{{ mov.tipo }}</span>
+                        <select id="tipo-input-{{ mov.id }}" style="display:none;">
+                            <option value="ingreso">Ingreso</option>
+                            <option value="egreso">Egreso</option>
                         </select>
                     </td>
+                    <td><span id="desc-text-{{ mov.id }}">{{ mov.descripcion }}</span>
+                        <input type="text" id="desc-input-{{ mov.id }}" value="{{ mov.descripcion }}" style="display:none;">
+                    </td>
+                    <td><span id="monto-text-{{ mov.id }}">{{ mov.monto }}</span>
+                        <input type="number" step="0.01" id="monto-input-{{ mov.id }}" value="{{ mov.monto }}" style="display:none;">
+                    </td>
+                    <td><span id="fecha-text-{{ mov.id }}">{{ mov.fecha }}</span>
+                        <input type="date" id="fecha-input-{{ mov.id }}" value="{{ mov.fecha }}" style="display:none;">
+                    </td>
                     <td>
-                        <button class="btn-editar" onclick="activarEdicion({{ prod.id }})" id="editar-{{ prod.id }}">Editar</button>
-                        <form method="post" action="{% url 'editar_produccion' prod.id %}" style="display:inline;" id="form-{{ prod.id }}">
+                        <button class="btn-editar" onclick="activarEdicion({{ mov.id }})" id="editar-{{ mov.id }}">Editar</button>
+                        <form method="post" action="{% url 'editar_movimiento' mov.id %}" style="display:inline;" id="form-{{ mov.id }}">
                             {% csrf_token %}
-                            <input type="hidden" name="producto" id="producto-form-{{ prod.id }}">
-                            <input type="hidden" name="cantidad" id="cantidad-form-{{ prod.id }}">
-                            <input type="hidden" name="fecha_inicio" id="inicio-form-{{ prod.id }}">
-                            <input type="hidden" name="fecha_fin" id="fin-form-{{ prod.id }}">
-                            <input type="hidden" name="estado" id="estado-form-{{ prod.id }}">
-                            <button type="submit" class="btn-guardar" style="display:none;" id="guardar-{{ prod.id }}" onclick="prepararFormulario({{ prod.id }})">Guardar</button>
+                            <input type="hidden" name="tipo" id="tipo-form-{{ mov.id }}">
+                            <input type="hidden" name="descripcion" id="desc-form-{{ mov.id }}">
+                            <input type="hidden" name="monto" id="monto-form-{{ mov.id }}">
+                            <input type="hidden" name="fecha" id="fecha-form-{{ mov.id }}">
+                            <button type="submit" class="btn-guardar" style="display:none;" id="guardar-{{ mov.id }}" onclick="prepararFormulario({{ mov.id }})">Guardar</button>
                         </form>
-                        <a href="{% url 'eliminar_produccion' prod.id %}" class="btn-eliminar" onclick="return confirm('¿Eliminar producción?');">Eliminar</a>
+                        <a href="{% url 'eliminar_movimiento' mov.id %}" class="btn-eliminar" onclick="return confirm('¿Eliminar movimiento?');">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <form method="post" action="{% url 'agregar_produccion' %}" class="form-agregar">
+        <form method="post" action="{% url 'agregar_movimiento' %}" class="form-agregar">
             {% csrf_token %}
-            <input type="text" name="producto" placeholder="Producto" required>
-            <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
-            <input type="date" name="fecha_inicio" required>
-            <input type="date" name="fecha_fin">
-            <select name="estado">
-                <option value="pendiente">Pendiente</option>
-                <option value="en_proceso">En Proceso</option>
-                <option value="finalizado">Finalizado</option>
+            <select name="tipo">
+                <option value="ingreso">Ingreso</option>
+                <option value="egreso">Egreso</option>
             </select>
+            <input type="text" name="descripcion" placeholder="Descripción" required>
+            <input type="number" step="0.01" name="monto" placeholder="Monto" required>
+            <input type="date" name="fecha" required>
             <button type="submit">Agregar</button>
         </form>
     </div>
 </div>
 <script>
-function activarEdicion(id) {
-    document.getElementById('editar-' + id).style.display = 'none';
-    document.getElementById('guardar-' + id).style.display = 'inline';
-    ['producto','cantidad','inicio','fin','estado'].forEach(function(campo){
+function activarEdicion(id){
+    document.getElementById('editar-' + id).style.display='none';
+    document.getElementById('guardar-' + id).style.display='inline';
+    ['tipo','desc','monto','fecha'].forEach(function(campo){
         document.getElementById(campo + '-text-' + id).style.display='none';
         document.getElementById(campo + '-input-' + id).style.display='inline';
     });
 }
 function prepararFormulario(id){
-    ['producto','cantidad','inicio','fin','estado'].forEach(function(campo){
+    ['tipo','desc','monto','fecha'].forEach(function(campo){
         const valor=document.getElementById(campo + '-input-' + id).value;
         document.getElementById(campo + '-form-' + id).value=valor;
     });
