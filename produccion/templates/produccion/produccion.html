@@ -1,0 +1,25 @@
+<h2>Lista de Producción</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produccion in producciones %}
+        <tr>
+            <td>{{ produccion.id }}</td>
+            <td>{{ produccion.producto }}</td>
+            <td>{{ produccion.cantidad }}</td>
+            <td>{{ produccion.fecha_inicio }}</td>
+            <td>{{ produccion.fecha_fin }}</td>
+            <td>{{ produccion.estado }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> 

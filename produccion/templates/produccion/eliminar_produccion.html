@@ -1,0 +1,6 @@
+<h2>Eliminar Producción</h2>
+<p>¿Está seguro de que desea eliminar la producción de {{ produccion.producto }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Eliminar</button>
+</form> 

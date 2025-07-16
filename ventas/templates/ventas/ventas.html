@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas - ERP</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Add your styles here */
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Lista de Ventas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.id }}</td>
+                    <td>{{ venta.cliente }}</td>
+                    <td>{{ venta.fecha }}</td>
+                    <td>{{ venta.total }}</td>
+                    <td>
+                        <a href="{% url 'editar_venta' venta.id %}">Editar</a>
+                        <a href="{% url 'eliminar_venta' venta.id %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'agregar_venta' %}">Agregar Venta</a>
+    </div>
+</body>
+</html> 
