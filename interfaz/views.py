@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Sum
+from django.db.utils import OperationalError
 
 from inventario.models import Producto
 from compras.models import Compra
@@ -10,6 +11,11 @@ from clientes.models import Cliente
 from empleados.models import Empleado
 
 def home(request):
+    try:
+        total_empleados = Empleado.objects.count()
+    except OperationalError:
+        total_empleados = 0
+
     context = {
         'total_productos': Producto.objects.count(),
         'total_compras': Compra.objects.count(),
@@ -18,7 +24,7 @@ def home(request):
         'balance_financiero': MovimientoFinanciero.objects.filter(tipo='ingreso').aggregate(total=Sum('monto'))['total'] or 0 -
                              (MovimientoFinanciero.objects.filter(tipo='egreso').aggregate(total=Sum('monto'))['total'] or 0),
         'total_clientes': Cliente.objects.count(),
-        'total_empleados': Empleado.objects.count(),
+        'total_empleados': total_empleados,
     }
     return render(request, 'interfaz/home.html', context)
 
